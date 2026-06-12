@@ -6,6 +6,7 @@ const navLinks = [
   { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
   { label: 'Experience', href: '#experience' },
+  { label: 'Blog', href: '#/blog', isRoute: true },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -65,17 +66,27 @@ const Navbar = ({ theme, toggleTheme, openSidebar }) => {
         {/* Desktop nav links */}
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
-            <button
-              key={link.href}
-              onClick={() => scrollTo(link.href)}
-              className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-md transition-all duration-300 ${
-                activeSection === link.href.slice(1)
-                  ? 'text-accent-blue bg-accent-blue/5'
-                  : 'text-text-muted hover:text-text-main'
-              }`}
-            >
-              {link.label}
-            </button>
+            link.isRoute ? (
+              <a
+                key={link.href}
+                href={link.href}
+                className="px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-md transition-all duration-300 text-text-muted hover:text-text-main"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <button
+                key={link.href}
+                onClick={() => scrollTo(link.href)}
+                className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-md transition-all duration-300 ${
+                  activeSection === link.href.slice(1)
+                    ? 'text-accent-blue bg-accent-blue/5'
+                    : 'text-text-muted hover:text-text-main'
+                }`}
+              >
+                {link.label}
+              </button>
+            )
           ))}
         </div>
 

@@ -7,9 +7,12 @@ import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
+import BlogSection from './components/BlogSection';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CaseStudy from './pages/CaseStudy';
+import BlogList from './pages/BlogList';
+import BlogPost from './pages/BlogPost';
 
 function AppContent() {
   const [theme, setTheme] = useState(() => {
@@ -61,10 +64,13 @@ function AppContent() {
             <Skills />
             <Projects />
             <Experience />
+            <BlogSection />
             <Contact />
           </main>
         } />
         <Route path="/project/:slug" element={<CaseStudy />} />
+        <Route path="/blog" element={<BlogList />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
       </Routes>
       <Footer />
     </div>

@@ -125,7 +125,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 <p className="text-[10px] font-bold tracking-[0.2em] text-text-muted uppercase mb-3">Quick Window</p>
                 <div className="flex flex-col gap-2">
                   {[
-                    { label: 'Blog', desc: 'Technical articles and creative thoughts', icon: ExternalLink, href: '#' },
+                    { label: 'Blog', desc: 'Technical articles and creative thoughts', icon: ExternalLink, href: '#/blog' },
                     { label: 'Github', desc: 'Source code and open-source contributions', icon: GitHub, href: 'https://github.com/murpheus007' },
                     { label: 'Whatsapp', desc: 'Direct messaging for inquiries', icon: MessageCircle, href: 'https://wa.me/yourwhatsapp' },
                     { label: 'Curriculum Vitae', desc: 'My professional journey', icon: FileText, href: '/cv.pdf', highlight: true },
