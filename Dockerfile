@@ -13,6 +13,12 @@ RUN echo 'server { \
     location / { \
         try_files $uri $uri/ /index.html; \
     } \
+    location = /index.html { \
+        add_header Cache-Control "no-cache, no-store, must-revalidate"; \
+        add_header Pragma "no-cache"; \
+        add_header Expires "0"; \
+        try_files $uri =404; \
+    } \
     location ~* \.(?:css|js|mjs|png|jpg|jpeg|gif|svg|webp|avif|ico|woff2?)$ { \
         expires 30d; \
         add_header Cache-Control "public, max-age=2592000, immutable"; \
