@@ -22,10 +22,10 @@
     --primary-teal: #0B3D4A;
     --accent-blue: #00D4FF;
     --secondary-amber: #F5A623;
-    --text-main: #E8EDF2;
-    --text-muted: #B0BEC5;
-    --text-dim: #78909C;
-    --border-subtle: rgba(120, 144, 156, 0.2);
+    --text-main: #FFFFFF;
+    --text-muted: #D1D5DB;
+    --text-dim: #9CA3AF;
+    --border-subtle: rgba(156, 163, 175, 0.2);
     color-scheme: dark;
   }
 

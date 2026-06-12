@@ -78,7 +78,7 @@ const Contact = () => {
                   <Mail size={18} />
                 </div>
                 <div>
-                  <div className="text-[10px] font-mono text-text-dim uppercase tracking-widest mb-0.5">
+                  <div className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-0.5">
                     Email
                   </div>
                   <a
@@ -95,7 +95,7 @@ const Contact = () => {
                   <SquareArrowOutUpRight size={18} />
                 </div>
                 <div>
-                  <div className="text-[10px] font-mono text-text-dim uppercase tracking-widest mb-0.5">
+                  <div className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-0.5">
                     GitHub
                   </div>
                   <a
@@ -114,7 +114,7 @@ const Contact = () => {
                   <MapPin size={18} />
                 </div>
                 <div>
-                  <div className="text-[10px] font-mono text-text-dim uppercase tracking-widest mb-0.5">
+                  <div className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-0.5">
                     Location
                   </div>
                   <span className="text-text-main text-sm">Uyo, Nigeria (GMT+1)</span>
@@ -147,7 +147,7 @@ const Contact = () => {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-[10px] font-mono text-text-dim uppercase tracking-widest mb-2">
+                  <label className="block text-[10px] font-mono text-text-muted uppercase tracking-widest mb-2">
                     Name
                   </label>
                   <input
@@ -160,7 +160,7 @@ const Contact = () => {
                   <ValidationError field="name" prefix="Name" errors={state.errors} className="text-red-400 text-xs font-mono mt-1" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-mono text-text-dim uppercase tracking-widest mb-2">
+                  <label className="block text-[10px] font-mono text-text-muted uppercase tracking-widest mb-2">
                     Email
                   </label>
                   <input

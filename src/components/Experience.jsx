@@ -48,7 +48,7 @@ const TimelineItem = ({ exp, index, isLast }) => {
           <span className="text-xs font-mono text-accent-blue shrink-0">{exp.period}</span>
         </div>
 
-        <div className="text-accent-blue/60 font-mono text-xs mb-3 uppercase tracking-wider">
+        <div className="text-accent-blue/80 font-mono text-xs mb-3 uppercase tracking-wider">
           {exp.company}
         </div>
 

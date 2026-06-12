@@ -154,7 +154,7 @@ const TerminalHero = () => {
                 {ASCII_ART}
               </pre>
 
-              <div className="text-accent-blue/60 text-xs mb-3 font-mono">
+              <div className="text-accent-blue/80 text-xs mb-3 font-mono">
                 {'// full-stack developer & digital architect'}
               </div>
 
@@ -173,7 +173,7 @@ const TerminalHero = () => {
                       <span>{line.content}</span>
                     </div>
                   ) : (
-                    <div className="text-text-muted pl-5 border-l border-text-dim/10 ml-[5px]">
+                    <div className="text-text-muted pl-5 border-l border-text-dim/20 ml-[5px]">
                       {line.content}
                     </div>
                   )}

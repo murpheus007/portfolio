@@ -130,11 +130,11 @@ const Projects = () => {
                     <span className="text-accent-blue font-mono text-[10px] uppercase tracking-[0.2em]">
                       {project.tagline}
                     </span>
-                    <span className="text-text-dim font-mono text-[10px] uppercase tracking-wider">
+                    <span className="text-text-muted font-mono text-[10px] uppercase tracking-wider">
                       {project.category}
                     </span>
                   </div>
-                  <h3 className="text-2xl font-display font-bold group-hover:text-accent-blue transition-colors duration-300">
+                  <h3 className="text-2xl font-display font-bold text-text-main group-hover:text-accent-blue transition-colors duration-300">
                     {project.title}
                   </h3>
                 </div>
@@ -156,7 +156,7 @@ const Projects = () => {
                 {/* Tech stack */}
                 <div className="flex flex-wrap gap-1.5 mb-6">
                   {project.tech.map(t => (
-                    <span key={t} className="text-[10px] font-mono text-text-dim border border-text-dim/15 px-2 py-0.5 rounded">
+                    <span key={t} className="text-[10px] font-mono text-text-muted border border-text-dim/20 px-2 py-0.5 rounded">
                       {t}
                     </span>
                   ))}
