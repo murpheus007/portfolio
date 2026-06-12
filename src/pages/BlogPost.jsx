@@ -32,7 +32,7 @@ const Section = ({ children, className = '' }) => (
 const formatInline = (text) => {
   // Split by bold, code, and links in one pass
   const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g);
-  return parts.map((part, i) => {
+  return parts.filter(p => p !== '').map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return <strong key={i} className="text-text-main font-bold">{part.slice(2, -2)}</strong>;
     }
