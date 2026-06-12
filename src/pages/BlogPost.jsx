@@ -222,7 +222,7 @@ const BlogPost = () => {
         </motion.h1>
 
         {/* Meta */}
-        <motion.div variants={fadeUp} className="flex items-center gap-6 text-text-dim text-sm font-mono">
+        <motion.div variants={fadeUp} className="flex items-center gap-6 text-text-muted text-sm font-mono">
           <span className="flex items-center gap-2">
             <Calendar size={14} />
             {formatDate(post.date)}
@@ -259,7 +259,7 @@ const BlogPost = () => {
                 to={`/blog/${prevPost.slug}`}
                 className="group p-5 bg-text-dim/5 border border-border-subtle rounded-lg hover:border-accent-blue/30 transition-all"
               >
-                <div className="text-text-dim text-xs font-mono mb-2">← Previous</div>
+                <div className="text-text-muted text-xs font-mono mb-2">← Previous</div>
                 <div className="text-text-main font-display font-bold group-hover:text-accent-blue transition-colors text-sm">
                   {prevPost.title}
                 </div>
@@ -270,7 +270,7 @@ const BlogPost = () => {
                 to={`/blog/${nextPost.slug}`}
                 className="group p-5 bg-text-dim/5 border border-border-subtle rounded-lg hover:border-accent-blue/30 transition-all md:text-right"
               >
-                <div className="text-text-dim text-xs font-mono mb-2 flex items-center gap-1 justify-end">
+                <div className="text-text-muted text-xs font-mono mb-2 flex items-center gap-1 justify-end">
                   Next <ArrowRight size={10} />
                 </div>
                 <div className="text-text-main font-display font-bold group-hover:text-accent-blue transition-colors text-sm">

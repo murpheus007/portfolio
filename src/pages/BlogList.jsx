@@ -106,7 +106,7 @@ const BlogList = () => {
 
                   {/* Meta */}
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-border-subtle">
-                    <div className="flex items-center gap-4 text-text-dim text-xs font-mono">
+                    <div className="flex items-center gap-4 text-text-muted text-xs font-mono">
                       <span className="flex items-center gap-1">
                         <Calendar size={12} />
                         {formatDate(post.date)}

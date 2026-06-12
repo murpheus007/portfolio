@@ -23,9 +23,9 @@
     --accent-blue: #00D4FF;
     --secondary-amber: #F5A623;
     --text-main: #E8EDF2;
-    --text-muted: #8899AA;
-    --text-dim: #556677;
-    --border-subtle: rgba(85, 102, 119, 0.15);
+    --text-muted: #B0BEC5;
+    --text-dim: #78909C;
+    --border-subtle: rgba(120, 144, 156, 0.2);
     color-scheme: dark;
   }
 
@@ -35,7 +35,7 @@
     --accent-blue: #2563EB;
     --secondary-amber: #D97706;
     --text-main: #0F172A;
-    --text-muted: #475569;
+    --text-muted: #64748B;
     --text-dim: #94A3B8;
     --border-subtle: rgba(148, 163, 184, 0.2);
     color-scheme: light;

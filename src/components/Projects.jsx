@@ -43,7 +43,7 @@ const projects = [
     description: "A full-stack platform for a virtual call center connecting people to work-from-home jobs with Fortune 500 companies. Dual-purpose: recruitment marketing site + full e-commerce store with Stripe-powered checkout.",
     tech: ["React 19", "Express 5", "Stripe", "Appwrite", "Framer Motion"],
     category: "Fullstack",
-    github: "https://github.com/murpheus007/genievirtualtalk",
+    github: "https://github.com/murpheus007/genie-virtual-talk",
     live: "https://genievirtualtalk.vercel.app",
     highlights: ["Stripe payments", "Dual deployment", "Full e-commerce"],
   },
@@ -59,20 +59,20 @@ const projects = [
     highlights: ["Astro static", "19 works", "Dark mode"],
   },
   {
-    slug: "aceagent",
-    title: "AceAgent",
-    tagline: "AI Tennis Prediction System",
-    description: "An automated AI agent pipeline for ATP tennis match predictions. Discovers upcoming matches, spawns parallel gatherer and analyst sub-agents, synthesizes predictions with confidence scores, and logs everything to CSV — fully automated via cron.",
-    tech: ["Python", "Agent orchestration", "Sub-agent pipelines", "Cron", "Telegram Bot API"],
-    category: "AI/ML",
-    github: "https://github.com/murpheus007/aceagent",
-    highlights: ["Multi-agent", "4 years ATP data", "Fully automated"],
+    slug: "pixelforge",
+    title: "PixelForge",
+    tagline: "AI Image Generation Platform",
+    description: "A fullstack AI image generation platform. Users sign in via Clerk, type a prompt, and the system queues an async job through Celery + Redis. A worker calls OpenRouter's FLUX.2 model, stores the image in MinIO, and the frontend polls until ready. Next.js + FastAPI, all containerized.",
+    tech: ["Next.js 14", "TypeScript", "FastAPI", "Celery", "Redis", "MinIO", "Clerk"],
+    category: "Fullstack",
+    github: "https://github.com/murpheus007/pixelforge",
+    highlights: ["Async queue", "FLUX.2 model", "6-service Docker"],
   },
 ];
 
 const Projects = () => {
   const [filter, setFilter] = useState('All');
-  const tabs = ['All', 'Fullstack', 'Frontend', 'Backend', 'AI/ML'];
+  const tabs = ['All', 'Fullstack', 'Frontend', 'Backend'];
 
   const filteredProjects = filter === 'All'
     ? projects

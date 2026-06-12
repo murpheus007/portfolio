@@ -95,7 +95,7 @@ const BlogSection = () => {
                     </p>
 
                     {/* Meta */}
-                    <div className="flex items-center gap-3 text-text-dim text-xs font-mono mt-auto pt-3 border-t border-border-subtle">
+                    <div className="flex items-center gap-3 text-text-muted text-xs font-mono mt-auto pt-3 border-t border-border-subtle">
                       <span className="flex items-center gap-1">
                         <Calendar size={10} />
                         {formatDate(post.date)}
