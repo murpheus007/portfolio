@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel>
+  <title>Murpheus Blog</title>
+  <link>https://murpheus.me</link>
+  <description>Technical articles &amp; creative thoughts — writing about the systems I build, the problems I solve, and the lessons learned along the way.</description>
+  <language>en-us</language>
+  <lastBuildDate>Fri, 12 Jun 2026 04:41:12 +0000</lastBuildDate>
+  <atom:link href="https://murpheus.me/feed.xml" rel="self" type="application/rss+xml" />
+  <managingEditor>dreamgotwings@gmail.com (Ubong Joe Joshua)</managingEditor>
+  <webMaster>dreamgotwings@gmail.com (Ubong Joe Joshua)</webMaster>
+  <image>
+    <url>https://murpheus.me/images/profile.jpg</url>
+    <title>Murpheus Blog</title>
+    <link>https://murpheus.me</link>
+  </image>
+  <item>
+    <title>Building StreamBolt: A Multi-Platform Social Video Downloader</title>
+    <link>https://murpheus.me/#/blog/building-streambolt</link>
+    <guid isPermaLink="true">https://murpheus.me/#/blog/building-streambolt</guid>
+    <description><![CDATA[<h2>The Problem</h2><p>Social media platforms don&apos;t make it easy to download videos. Users who want to save a clip for offline viewing, archival, or sharing outside the platform have to resort to sketchy third-party sites riddled with ads and malware.</p><p>I wanted to build a clean, self-hosted alternative that works across platforms — YouTube, Instagram, TikTok, Twitter/X, Facebook, Vimeo, Reddit, and more.</p><h2>Architecture Decisions</h2><p>The core insight was that three different interfaces (Web, Telegram, WhatsApp) could all converge on a single Express backend. Instead of building three separate services, I designed one API that handles all download requests identically regardless of source.</p><h3>Streaming Downloads</h3><p>The most critical decision was <strong>not buffering videos on the server</strong>. The <code>/api/download</code> endpoint pipes yt-dlp&apos;s stdout directly into the HTTP response:</p><pre><code>yt-dlp → stdout → HTTP response → client</code></pre><p>The server never holds the full video in memory. For a 500MB file, this means constant ~1MB memory usage instead of 500MB. Abort handling kills the yt-dlp process cleanly with SIGTERM → SIGKILL fallback after 3 seconds.</p><h3>Three Entry Points</h3><ul><li><strong>Web UI</strong>: React + Vite + TailwindCSS with metadata preview before download</li><li><strong>Telegram Bot</strong>: Built with Telegraf — users paste a link, get the video back</li><li><strong>WhatsApp Bot</strong>: Built with Baileys — same flow, different platform</li></ul><p>All three hit the same <code>/api/download</code> and <code>/api/metadata</code> endpoints.</p><h2>Docker Multi-Stage Build</h2><p>The container needs ffmpeg, Python (for yt-dlp), Deno (for edge functions), and Node.js. A multi-stage build keeps the final image lean:</p><pre><code>Stage 1: Install yt-dlp + ffmpeg + Python
+Stage 2: Copy into Node.js base, install npm deps
+Stage 3: Production image (~180MB)</code></pre><h2>Results</h2><ul><li>12+ platforms supported</li><li>3 entry points, 1 backend</li><li>Zero server-side buffering</li><li>SQLite analytics tracking every download</li><li>Fully containerized with SSL via Nginx Proxy Manager</li></ul><p><strong>Live:</strong> <a href="https://streambolt.tech" target="_blank" rel="noopener noreferrer">streambolt.tech</a></p>]]></description>
+    <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+    <category>Fullstack</category>
+    <category>Node.js</category>
+    <category>Docker</category>
+    <category>Telegram Bot</category>
+    <author>dreamgotwings@gmail.com (Ubong Joe Joshua)</author>
+  </item>
+  <item>
+    <title>Designing a Multi-Agent AI Pipeline for Tennis Predictions</title>
+    <link>https://murpheus.me/#/blog/multi-agent-ai-pipeline</link>
+    <guid isPermaLink="true">https://murpheus.me/#/blog/multi-agent-ai-pipeline</guid>
+    <description><![CDATA[<h2>The Idea</h2><p>What if an AI system could predict tennis match outcomes by researching players the way a human analyst would? Not just crunching numbers, but gathering context — recent form, head-to-head records, surface preferences, fatigue signals — and synthesizing it into a reasoned prediction.</p><p>That&apos;s AceAgent.</p><h2>The Pipeline</h2><p>The system runs daily via cron:</p><ol><li><strong>7 AM</strong> — Match discovery: scrape upcoming ATP matches</li><li><strong>Parallel agents</strong> — For each match, spawn two sub-agents simultaneously</li><li><strong>Synthesis</strong> — Combine agent outputs into a final prediction</li><li><strong>10 AM</strong> — Score fetching: check yesterday&apos;s results for accuracy tracking</li></ol><h2>Sub-Agent Architecture</h2><h3>Gatherer Agent</h3><p>Fetches structured data:</p><ul><li>Head-to-head records from tennismylife.org API</li><li>Surface-specific statistics (hard, clay, grass)</li><li>Recent form (last 10 matches)</li><li>Fatigue metrics (matches played in last 7 days)</li></ul><h3>Analyst Agent</h3><p>Runs an 11-point sentiment checklist via web search:</p><ul><li>Injury reports and withdrawal rumors</li><li>Tournament importance to each player</li><li>Travel and scheduling factors</li><li>Historical performance at this venue</li></ul><h2>Synthesis</h2><p>Both agent outputs are combined into a final prediction with:</p><ul><li><strong>Probability percentage</strong> (e.g., Player A wins 68%)</li><li><strong>Confidence level</strong> (High / Medium / Low)</li><li><strong>Key factors</strong> (top 3 reasons for the prediction)</li></ul><h2>Data Pipeline</h2><p>4 years of historical ATP match data (2023–2026) with match-level statistics for deeper analysis. All stored in SQLite, delivered via Telegram bot.</p><h2>Results</h2><ul><li>Fully autonomous — runs daily without human intervention</li><li>Parallel agent execution reduces per-match processing time</li><li>Historical tracking enables accuracy measurement over time</li><li>Telegram delivery for real-time notifications</li></ul><p><strong>Code:</strong> <a href="https://github.com/murpheus007/aceagent" target="_blank" rel="noopener noreferrer">github.com/murpheus007/aceagent</a></p>]]></description>
+    <pubDate>Tue, 20 May 2025 00:00:00 +0000</pubDate>
+    <category>AI</category>
+    <category>Python</category>
+    <category>Agent Orchestration</category>
+    <category>Automation</category>
+    <author>dreamgotwings@gmail.com (Ubong Joe Joshua)</author>
+  </item>
+  <item>
+    <title>Wallet-Signature Authentication with Supabase Edge Functions</title>
+    <link>https://murpheus.me/#/blog/wallet-signature-auth</link>
+    <guid isPermaLink="true">https://murpheus.me/#/blog/wallet-signature-auth</guid>
+    <description><![CDATA[<h2>The Challenge</h2><p>Deriverse needed wallet authentication — but not the typical &quot;connect wallet&quot; flow. I wanted users to sign a message with their Solana wallet, verify it server-side, and create a Supabase session tied to that wallet address.</p><p>The tricky part: preventing replay attacks where someone intercepts a valid signature and reuses it.</p><h2>The Flow</h2><h3>1. Generate Nonce</h3><p>When the user clicks &quot;Connect Wallet&quot;, the app generates a unique nonce (random string) and stores it in Supabase:</p><pre><code>nonce = crypto.randomUUID()
+storeInDB(nonce, walletAddress, expiresAt: now + 5min)</code></pre><h3>2. Sign Message</h3><p>The user signs a message containing the nonce with their Solana wallet:</p><pre><code>message = "Sign this message to authenticate with Deriverse. Nonce: {nonce}"
+signature = wallet.signMessage(message)</code></pre><h3>3. Verify on Edge Function</h3><p>A Supabase Edge Function (Deno runtime) handles verification:</p><pre><code>- Look up nonce in database
+- Check expiration (reject if &gt; 5 minutes old)
+- Verify signature using @solana/web3.js
+- Delete nonce (single-use)
+- Create Supabase session for wallet address</code></pre><h3>4. Session Established</h3><p>The user now has a Supabase session with row-level security policies tied to their wallet address.</p><h2>Why Edge Functions?</h2><ul><li><strong>Low latency</strong>: Runs at the edge, close to the user</li><li><strong>Deno runtime</strong>: Native support for <code>@solana/web3.js</code></li><li><strong>No separate server</strong>: Leverages existing Supabase infrastructure</li></ul><h2>Replay Attack Prevention</h2><p>Three layers of protection:</p><ol><li><strong>Nonce expiration</strong>: 5-minute window</li><li><strong>Single-use</strong>: Nonce deleted after verification</li><li><strong>Wallet binding</strong>: Nonce tied to specific wallet address</li></ol><h2>Results</h2><ul><li>Secure wallet-to-session linking</li><li>No OAuth dependencies</li><li>Works fully client-side with cloud persistence</li><li>Row-level security for wallet-specific data</li></ul><p><strong>Code:</strong> <a href="https://github.com/murpheus007/deriverse" target="_blank" rel="noopener noreferrer">github.com/murpheus007/deriverse</a></p>]]></description>
+    <pubDate>Thu, 10 Apr 2025 00:00:00 +0000</pubDate>
+    <category>Web3</category>
+    <category>Supabase</category>
+    <category>Security</category>
+    <category>React</category>
+    <author>dreamgotwings@gmail.com (Ubong Joe Joshua)</author>
+  </item>
+</channel>
+</rss>
