@@ -59,8 +59,10 @@ const renderContent = (content) => {
   let codeLines = [];
 
   lines.forEach((line, i) => {
+    const trimmed = line.trim();
+
     // Code block start/end
-    if (line.startsWith('```')) {
+    if (trimmed.startsWith('```')) {
       if (inCodeBlock) {
         elements.push(
           <motion.pre key={`code-${i}`} variants={fadeUp} className="my-4 p-4 bg-text-dim/10 border border-border-subtle rounded-lg overflow-x-auto">
@@ -83,44 +85,44 @@ const renderContent = (content) => {
     }
 
     // Empty line
-    if (line.trim() === '') {
+    if (trimmed === '') {
       elements.push(<div key={i} className="h-2" />);
       return;
     }
 
     // Headings
-    if (line.startsWith('## ')) {
+    if (trimmed.startsWith('## ')) {
       elements.push(
         <motion.h2 key={i} variants={fadeUp} className="text-2xl font-display font-bold mt-10 mb-4">
-          {line.slice(3)}
+          {trimmed.slice(3)}
         </motion.h2>
       );
       return;
     }
 
-    if (line.startsWith('### ')) {
+    if (trimmed.startsWith('### ')) {
       elements.push(
         <motion.h3 key={i} variants={fadeUp} className="text-xl font-display font-bold mt-8 mb-3">
-          {line.slice(4)}
+          {trimmed.slice(4)}
         </motion.h3>
       );
       return;
     }
 
     // List items
-    if (line.startsWith('- ')) {
+    if (trimmed.startsWith('- ')) {
       elements.push(
         <motion.div key={i} variants={fadeUp} className="flex items-start gap-2 mb-2 pl-4">
           <span className="w-1.5 h-1.5 bg-accent-blue rounded-full mt-2 shrink-0" />
-          <span className="text-text-muted leading-relaxed">{formatInline(line.slice(2))}</span>
+          <span className="text-text-muted leading-relaxed">{formatInline(trimmed.slice(2))}</span>
         </motion.div>
       );
       return;
     }
 
     // Numbered list
-    if (/^\d+\.\s/.test(line)) {
-      const match = line.match(/^(\d+)\.\s(.*)$/);
+    if (/^\d+\.\s/.test(trimmed)) {
+      const match = trimmed.match(/^(\d+)\.\s(.*)$/);
       elements.push(
         <motion.div key={i} variants={fadeUp} className="flex items-start gap-3 mb-2 pl-4">
           <span className="text-accent-blue font-mono text-sm font-bold shrink-0 mt-0.5">{match[1]}.</span>
@@ -131,10 +133,10 @@ const renderContent = (content) => {
     }
 
     // Bold-only line (standalone)
-    if (line.startsWith('**') && line.endsWith('**')) {
+    if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
       elements.push(
         <motion.p key={i} variants={fadeUp} className="text-text-main font-bold mt-4 mb-2">
-          {line.slice(2, -2)}
+          {trimmed.slice(2, -2)}
         </motion.p>
       );
       return;
@@ -143,7 +145,7 @@ const renderContent = (content) => {
     // Regular paragraph (with inline formatting)
     elements.push(
       <motion.p key={i} variants={fadeUp} className="text-text-muted leading-relaxed mb-3">
-        {formatInline(line)}
+        {formatInline(trimmed)}
       </motion.p>
     );
   });
