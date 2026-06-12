@@ -105,13 +105,11 @@ const renderContent = (content) => {
       elements.push(
         <motion.p key={i} variants={fadeUp} className="text-text-muted leading-relaxed mb-3">
           {parts.map((part, j) => {
-            const linkMatch = match(/\[([^\]]+)\]\(([^)]+)\)/);
-            if (linkMatch && part.includes('[')) {
-              const text = part.slice(part.indexOf('[') + 1, part.indexOf(']'));
-              const url = part.slice(part.indexOf('](') + 2, part.indexOf(')'));
+            const linkMatch = part.match(/\[([^\]]+)\]\(([^)]+)\)/);
+            if (linkMatch) {
               return (
-                <a key={j} href={url} target="_blank" rel="noopener noreferrer" className="text-accent-blue hover:underline">
-                  {text}
+                <a key={j} href={linkMatch[2]} target="_blank" rel="noopener noreferrer" className="text-accent-blue hover:underline">
+                  {linkMatch[1]}
                 </a>
               );
             }
