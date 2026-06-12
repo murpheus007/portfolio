@@ -28,36 +28,63 @@ const Section = ({ children, className = '' }) => (
   </motion.section>
 );
 
+// Inline formatter: handles **bold**, `code`, and [links](url) within text
+const formatInline = (text) => {
+  // Split by bold, code, and links in one pass
+  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i} className="text-text-main font-bold">{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return <code key={i} className="px-1.5 py-0.5 bg-text-dim/10 text-accent-blue text-sm font-mono rounded">{part.slice(1, -1)}</code>;
+    }
+    const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (linkMatch) {
+      return (
+        <a key={i} href={linkMatch[2]} target="_blank" rel="noopener noreferrer" className="text-accent-blue hover:underline">
+          {linkMatch[1]}
+        </a>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
+};
+
 // Simple markdown-like renderer
 const renderContent = (content) => {
   const lines = content.split('\n');
   const elements = [];
   let inCodeBlock = false;
   let codeLines = [];
-  let codeLanguage = '';
 
   lines.forEach((line, i) => {
     // Code block start/end
     if (line.startsWith('```')) {
       if (inCodeBlock) {
         elements.push(
-          <pre key={`code-${i}`} className="my-4 p-4 bg-text-dim/10 border border-border-subtle rounded-lg overflow-x-auto">
-            <code className="text-sm font-mono text-text-muted">
+          <motion.pre key={`code-${i}`} variants={fadeUp} className="my-4 p-4 bg-text-dim/10 border border-border-subtle rounded-lg overflow-x-auto">
+            <code className="text-sm font-mono text-text-muted whitespace-pre">
               {codeLines.join('\n')}
             </code>
-          </pre>
+          </motion.pre>
         );
         codeLines = [];
         inCodeBlock = false;
       } else {
         inCodeBlock = true;
-        codeLanguage = line.slice(3).trim();
       }
       return;
     }
 
     if (inCodeBlock) {
       codeLines.push(line);
+      return;
+    }
+
+    // Empty line
+    if (line.trim() === '') {
+      elements.push(<div key={i} className="h-2" />);
       return;
     }
 
@@ -80,52 +107,12 @@ const renderContent = (content) => {
       return;
     }
 
-    // Inline code
-    if (line.includes('`') && !line.startsWith('```')) {
-      const parts = line.split(/(`[^`]+`)/g);
-      elements.push(
-        <motion.p key={i} variants={fadeUp} className="text-text-muted leading-relaxed mb-3">
-          {parts.map((part, j) =>
-            part.startsWith('`') && part.endsWith('`') ? (
-              <code key={j} className="px-1.5 py-0.5 bg-text-dim/10 text-accent-blue text-sm font-mono rounded">
-                {part.slice(1, -1)}
-              </code>
-            ) : (
-              <span key={j}>{part}</span>
-            )
-          )}
-        </motion.p>
-      );
-      return;
-    }
-
-    // Links
-    if (line.includes('[') && line.includes('](')) {
-      const parts = line.split(/(\[[^\]]+\]\([^)]+\))/g);
-      elements.push(
-        <motion.p key={i} variants={fadeUp} className="text-text-muted leading-relaxed mb-3">
-          {parts.map((part, j) => {
-            const linkMatch = part.match(/\[([^\]]+)\]\(([^)]+)\)/);
-            if (linkMatch) {
-              return (
-                <a key={j} href={linkMatch[2]} target="_blank" rel="noopener noreferrer" className="text-accent-blue hover:underline">
-                  {linkMatch[1]}
-                </a>
-              );
-            }
-            return <span key={j}>{part}</span>;
-          })}
-        </motion.p>
-      );
-      return;
-    }
-
     // List items
     if (line.startsWith('- ')) {
       elements.push(
         <motion.div key={i} variants={fadeUp} className="flex items-start gap-2 mb-2 pl-4">
           <span className="w-1.5 h-1.5 bg-accent-blue rounded-full mt-2 shrink-0" />
-          <span className="text-text-muted leading-relaxed">{line.slice(2)}</span>
+          <span className="text-text-muted leading-relaxed">{formatInline(line.slice(2))}</span>
         </motion.div>
       );
       return;
@@ -133,18 +120,17 @@ const renderContent = (content) => {
 
     // Numbered list
     if (/^\d+\.\s/.test(line)) {
-      const num = line.match(/^(\d+)\.\s/)[1];
-      const text = line.slice(num.length + 2);
+      const match = line.match(/^(\d+)\.\s(.*)$/);
       elements.push(
         <motion.div key={i} variants={fadeUp} className="flex items-start gap-3 mb-2 pl-4">
-          <span className="text-accent-blue font-mono text-sm font-bold shrink-0">{num}.</span>
-          <span className="text-text-muted leading-relaxed">{text}</span>
+          <span className="text-accent-blue font-mono text-sm font-bold shrink-0 mt-0.5">{match[1]}.</span>
+          <span className="text-text-muted leading-relaxed">{formatInline(match[2])}</span>
         </motion.div>
       );
       return;
     }
 
-    // Bold text
+    // Bold-only line (standalone)
     if (line.startsWith('**') && line.endsWith('**')) {
       elements.push(
         <motion.p key={i} variants={fadeUp} className="text-text-main font-bold mt-4 mb-2">
@@ -154,16 +140,10 @@ const renderContent = (content) => {
       return;
     }
 
-    // Empty line
-    if (line.trim() === '') {
-      elements.push(<div key={i} className="h-2" />);
-      return;
-    }
-
-    // Regular paragraph
+    // Regular paragraph (with inline formatting)
     elements.push(
       <motion.p key={i} variants={fadeUp} className="text-text-muted leading-relaxed mb-3">
-        {line}
+        {formatInline(line)}
       </motion.p>
     );
   });
